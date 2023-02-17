@@ -1,0 +1,29 @@
+.Nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 40px 80px;
+    border-bottom: 1px solid #ECECEC;
+}
+
+.Nav-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.image {
+    width: 9vw;
+}
+
+.Nav-content {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    list-style: none;
+}
+
+.Nav-links {
+    text-decoration: none;
+    color: #292D32;
+}

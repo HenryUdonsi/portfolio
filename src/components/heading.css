@@ -1,0 +1,13 @@
+h1{
+    font-size: 70px;
+    line-height: 52px;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 20px;
+}
+
+h1 span {
+    font-size: 80px;
+    color: #EE3625;
+}

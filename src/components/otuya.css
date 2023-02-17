@@ -1,0 +1,17 @@
+.flex-grid {
+    display: flex;
+    align-items: top;
+    justify-content: space-between;
+    padding: 80px;
+    border-bottom: 1px solid #ECECEC;
+}
+
+h2 {
+    font-size: 40px;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.tag {
+    color: #9A9EA6;
+}
