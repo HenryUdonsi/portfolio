@@ -1,0 +1,25 @@
+.listam-card {
+    background: #FDF6EC;
+}
+
+.listam-emoji-badge {
+    font-size: 32px;
+    margin-bottom: 4px;
+}
+
+.listam-view-link {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: #F5A623;
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.15s;
+}
+
+.listam-view-link:hover {
+    background: #D4881A;
+}
