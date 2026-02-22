@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, ClockCounterClockwise } from '@phosphor-icons/react';
 import { useOrder } from '../context/OrderContext';
+import PageWrapper from '../components/PageWrapper';
 import marketItems from '../data/market_items.json';
 import '../styles/listam.css';
 import './HomeScreen.css';
@@ -24,12 +25,13 @@ function useKeywordBrain(text) {
 }
 
 const stallItemVariants = {
-  initial: { y: -80, opacity: 0, scale: 0.7 },
+  initial: { y: -60, opacity: 0, scale: 0.6 },
   animate: {
     y: 0, opacity: 1, scale: 1,
-    transition: { type: 'spring', stiffness: 200, damping: 0.7 * 20 },
+    transition: { type: 'spring', stiffness: 280, damping: 18 },
   },
-  exit: { scale: 0.5, opacity: 0, transition: { duration: 0.15 } },
+  exit: { scale: 0.4, opacity: 0, y: 10, transition: { duration: 0.12, ease: 'easeIn' } },
+  hover: { scale: 1.06, transition: { type: 'spring', stiffness: 400, damping: 20 } },
 };
 
 export default function HomeScreen() {
@@ -56,15 +58,23 @@ export default function HomeScreen() {
   const canProceed = detectedItems.length > 0;
 
   return (
+    <PageWrapper>
     <div className="listam-root">
       <div className="listam-shell">
         {/* Header */}
         <header className="listam-header">
           <div className="home-logo">🛒</div>
           <h1>Listam</h1>
-          <button className="listam-back-btn" onClick={() => navigate('/listam/history')} title="Order History">
+          <motion.button
+            className="listam-back-btn"
+            onClick={() => navigate('/listam/history')}
+            title="Order History"
+            whileHover={{ scale: 1.12 }}
+            whileTap={{ scale: 0.88 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+          >
             <ClockCounterClockwise size={22} />
-          </button>
+          </motion.button>
         </header>
 
         {/* Content */}
@@ -99,6 +109,7 @@ export default function HomeScreen() {
                       initial="initial"
                       animate="animate"
                       exit="exit"
+                      whileHover="hover"
                       layout
                     >
                       <span className="stall-item-emoji">{item.emoji}</span>
@@ -114,8 +125,9 @@ export default function HomeScreen() {
           {detectedItems.length === 0 && state.inputText.length > 0 && (
             <motion.p
               className="stall-hint"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 22 }}
             >
               Keep typing... I'll pick up what you need 🧺
             </motion.p>
@@ -124,16 +136,19 @@ export default function HomeScreen() {
 
         {/* Action bar */}
         <div className="listam-action-bar">
-          <button
+          <motion.button
             className="btn-primary"
             disabled={!canProceed}
             onClick={() => navigate('/listam/confirm')}
+            whileTap={canProceed ? { scale: 0.97 } : {}}
+            transition={{ type: 'spring', stiffness: 400, damping: 22 }}
           >
             <ShoppingCart size={18} weight="bold" style={{ marginRight: 8, verticalAlign: 'middle' }} />
             Review My List ({detectedItems.length} {detectedItems.length === 1 ? 'item' : 'items'})
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>
+    </PageWrapper>
   );
 }

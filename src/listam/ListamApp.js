@@ -1,4 +1,5 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import { OrderProvider } from './context/OrderContext';
 import HomeScreen from './screens/HomeScreen';
 import ConfirmScreen from './screens/ConfirmScreen';
@@ -8,10 +9,11 @@ import SuccessScreen from './screens/SuccessScreen';
 import TrackingScreen from './screens/TrackingScreen';
 import HistoryScreen from './screens/HistoryScreen';
 
-export default function ListamApp() {
+function AnimatedRoutes() {
+  const location = useLocation();
   return (
-    <OrderProvider>
-      <Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
         <Route path="/listam" element={<HomeScreen />} />
         <Route path="/listam/confirm" element={<ConfirmScreen />} />
         <Route path="/listam/checkout" element={<CheckoutScreen />} />
@@ -21,6 +23,14 @@ export default function ListamApp() {
         <Route path="/listam/history" element={<HistoryScreen />} />
         <Route path="/listam/*" element={<Navigate to="/listam" replace />} />
       </Routes>
+    </AnimatePresence>
+  );
+}
+
+export default function ListamApp() {
+  return (
+    <OrderProvider>
+      <AnimatedRoutes />
     </OrderProvider>
   );
 }

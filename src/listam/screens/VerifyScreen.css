@@ -52,6 +52,13 @@
   font-weight: 600;
   cursor: pointer;
   color: var(--color-text);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.verify-manual-btn:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
 }
 
 /* Screenshot */
@@ -82,12 +89,13 @@
   font-weight: 600;
   color: var(--color-text-muted);
   background: var(--color-surface);
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 
 .screenshot-upload-btn:hover {
   border-color: var(--color-primary);
   color: var(--color-primary-dark);
+  background: var(--color-primary-light);
 }
 
 .screenshot-preview {
@@ -161,6 +169,11 @@
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
+  transition: filter 0.12s ease;
+}
+
+.sheet-btn:hover {
+  filter: brightness(0.94);
 }
 
 .sheet-btn--yes {

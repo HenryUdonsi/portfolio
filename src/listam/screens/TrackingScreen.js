@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from '@phosphor-icons/react';
 import { useOrder, calcExtraHands } from '../context/OrderContext';
+import PageWrapper from '../components/PageWrapper';
 import '../styles/listam.css';
 import './TrackingScreen.css';
 
 const STAGES = ['At market', 'Packing items', 'On the way', 'Nearby', 'Delivered'];
+const TAP_BTN = { type: 'spring', stiffness: 400, damping: 20 };
 
 function ShopperLane({ index, hands }) {
   const [stage, setStage] = useState(0);
@@ -26,9 +28,15 @@ function ShopperLane({ index, hands }) {
         <span className="lane-shopper-label">
           Shopper {index + 1} {hands === 1 ? '' : `(Hand ${index + 1})`}
         </span>
-        <span className={`lane-stage-badge ${stage === STAGES.length - 1 ? 'lane-stage-badge--done' : ''}`}>
+        <motion.span
+          className={`lane-stage-badge ${stage === STAGES.length - 1 ? 'lane-stage-badge--done' : ''}`}
+          key={stage}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+        >
           {STAGES[stage]}
-        </span>
+        </motion.span>
       </div>
       <div className="lane-track">
         <motion.div
@@ -40,7 +48,12 @@ function ShopperLane({ index, hands }) {
       </div>
       <div className="lane-stages">
         {STAGES.map((s, i) => (
-          <span key={s} className={`lane-dot ${i <= stage ? 'lane-dot--active' : ''}`} />
+          <motion.span
+            key={s}
+            className={`lane-dot ${i <= stage ? 'lane-dot--active' : ''}`}
+            animate={i <= stage ? { scale: [1, 1.4, 1] } : { scale: 1 }}
+            transition={{ duration: 0.35 }}
+          />
         ))}
       </div>
     </div>
@@ -54,12 +67,19 @@ export default function TrackingScreen() {
   const { eta } = calcExtraHands(hands, baseTime);
 
   return (
+    <PageWrapper>
     <div className="listam-root">
       <div className="listam-shell">
         <header className="listam-header">
-          <button className="listam-back-btn" onClick={() => navigate('/listam/success')}>
+          <motion.button
+            className="listam-back-btn"
+            onClick={() => navigate('/listam/success')}
+            whileHover={{ scale: 1.12 }}
+            whileTap={{ scale: 0.88 }}
+            transition={TAP_BTN}
+          >
             <ArrowLeft size={22} />
-          </button>
+          </motion.button>
           <h1>Live Tracking</h1>
         </header>
 
@@ -86,11 +106,17 @@ export default function TrackingScreen() {
         </div>
 
         <div className="listam-action-bar">
-          <button className="btn-ghost" onClick={() => navigate('/listam')}>
+          <motion.button
+            className="btn-ghost"
+            onClick={() => navigate('/listam')}
+            whileTap={{ scale: 0.97 }}
+            transition={TAP_BTN}
+          >
             Back to Home
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>
+    </PageWrapper>
   );
 }

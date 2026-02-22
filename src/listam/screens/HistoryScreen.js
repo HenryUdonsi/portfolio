@@ -3,8 +3,11 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowCounterClockwise } from '@phosphor-icons/react';
 import { useOrder } from '../context/OrderContext';
 import { mockOrderHistory } from '../data/mockData';
+import PageWrapper from '../components/PageWrapper';
 import '../styles/listam.css';
 import './HistoryScreen.css';
+
+const TAP_BTN = { type: 'spring', stiffness: 400, damping: 20 };
 
 export default function HistoryScreen() {
   const { dispatch } = useOrder();
@@ -25,12 +28,19 @@ export default function HistoryScreen() {
   };
 
   return (
+    <PageWrapper>
     <div className="listam-root">
       <div className="listam-shell">
         <header className="listam-header">
-          <button className="listam-back-btn" onClick={() => navigate('/listam')}>
+          <motion.button
+            className="listam-back-btn"
+            onClick={() => navigate('/listam')}
+            whileHover={{ scale: 1.12 }}
+            whileTap={{ scale: 0.88 }}
+            transition={TAP_BTN}
+          >
             <ArrowLeft size={22} />
-          </button>
+          </motion.button>
           <h1>Order History</h1>
         </header>
 
@@ -45,7 +55,8 @@ export default function HistoryScreen() {
                   className="history-card"
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.07, type: 'spring', stiffness: 200, damping: 20 }}
+                  transition={{ delay: i * 0.07, type: 'spring', stiffness: 260, damping: 22 }}
+                  whileHover={{ y: -2, boxShadow: '0 6px 20px rgba(26,26,26,0.13)' }}
                 >
                   <div className="history-card-header">
                     <div>
@@ -77,13 +88,16 @@ export default function HistoryScreen() {
                         </span>
                       )}
                     </div>
-                    <button
+                    <motion.button
                       className="reorder-btn"
                       onClick={() => handleReorder(order)}
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.94 }}
+                      transition={TAP_BTN}
                     >
                       <ArrowCounterClockwise size={15} weight="bold" />
                       Reorder
-                    </button>
+                    </motion.button>
                   </div>
                 </motion.div>
               ))}
@@ -92,5 +106,6 @@ export default function HistoryScreen() {
         </div>
       </div>
     </div>
+    </PageWrapper>
   );
 }

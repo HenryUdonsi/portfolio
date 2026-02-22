@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Copy, Check, User } from '@phosphor-icons/react';
 import { useOrder, calcExtraHands, calcItemsTotal } from '../context/OrderContext';
 import { mockBankAccount } from '../data/mockData';
+import PageWrapper from '../components/PageWrapper';
 import '../styles/listam.css';
 import './CheckoutScreen.css';
 
@@ -12,6 +13,8 @@ const HAND_OPTIONS = [
   { count: 2, label: '2 Hands', sublabel: 'Faster' },
   { count: 3, label: '3 Hands', sublabel: 'Express' },
 ];
+
+const TAP_BTN = { type: 'spring', stiffness: 400, damping: 20 };
 
 export default function CheckoutScreen() {
   const { state, dispatch } = useOrder();
@@ -30,12 +33,19 @@ export default function CheckoutScreen() {
   };
 
   return (
+    <PageWrapper>
     <div className="listam-root">
       <div className="listam-shell">
         <header className="listam-header">
-          <button className="listam-back-btn" onClick={() => navigate('/listam/confirm')}>
+          <motion.button
+            className="listam-back-btn"
+            onClick={() => navigate('/listam/confirm')}
+            whileHover={{ scale: 1.12 }}
+            whileTap={{ scale: 0.88 }}
+            transition={TAP_BTN}
+          >
             <ArrowLeft size={22} />
-          </button>
+          </motion.button>
           <h1>Checkout</h1>
         </header>
 
@@ -53,7 +63,9 @@ export default function CheckoutScreen() {
                     key={opt.count}
                     className={`hands-card ${active ? 'hands-card--active' : ''}`}
                     onClick={() => dispatch({ type: 'SET_HANDS', payload: opt.count })}
-                    whileTap={{ scale: 0.97 }}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={TAP_BTN}
                   >
                     <div className="hands-icons">
                       {Array.from({ length: opt.count }).map((_, i) => (
@@ -90,13 +102,18 @@ export default function CheckoutScreen() {
                 <span className="bank-label">Account Number</span>
                 <div className="bank-acct-copy">
                   <span className="bank-acct-num">{mockBankAccount.accountNumber}</span>
-                  <button className="copy-btn" onClick={handleCopy}>
+                  <motion.button
+                    className={`copy-btn ${copied ? 'copy-btn--copied' : ''}`}
+                    onClick={handleCopy}
+                    whileTap={{ scale: 0.92 }}
+                    transition={TAP_BTN}
+                  >
                     {copied
-                      ? <Check size={16} weight="bold" color="var(--color-success)" />
+                      ? <Check size={16} weight="bold" />
                       : <Copy size={16} weight="bold" />
                     }
-                    <span>{copied ? 'Copied!' : 'Tap to Copy'}</span>
-                  </button>
+                    <span>{copied ? 'Copied!' : 'Copy'}</span>
+                  </motion.button>
                 </div>
               </div>
               <div className="bank-total-row">
@@ -108,11 +125,17 @@ export default function CheckoutScreen() {
         </div>
 
         <div className="listam-action-bar">
-          <button className="btn-primary" onClick={() => navigate('/listam/verify')}>
+          <motion.button
+            className="btn-primary"
+            onClick={() => navigate('/listam/verify')}
+            whileTap={{ scale: 0.97 }}
+            transition={TAP_BTN}
+          >
             I've Sent the Money
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>
+    </PageWrapper>
   );
 }

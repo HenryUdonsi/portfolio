@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, UploadSimple, CheckCircle, XCircle } from '@phosphor-icons/react';
 import { useOrder } from '../context/OrderContext';
+import PageWrapper from '../components/PageWrapper';
 import '../styles/listam.css';
 import './VerifyScreen.css';
+
+const TAP_BTN = { type: 'spring', stiffness: 400, damping: 20 };
 
 export default function VerifyScreen() {
   const { state, dispatch } = useOrder();
@@ -42,12 +45,19 @@ export default function VerifyScreen() {
   };
 
   return (
+    <PageWrapper>
     <div className="listam-root">
       <div className="listam-shell">
         <header className="listam-header">
-          <button className="listam-back-btn" onClick={() => navigate('/listam/checkout')}>
+          <motion.button
+            className="listam-back-btn"
+            onClick={() => navigate('/listam/checkout')}
+            whileHover={{ scale: 1.12 }}
+            whileTap={{ scale: 0.88 }}
+            transition={TAP_BTN}
+          >
             <ArrowLeft size={22} />
-          </button>
+          </motion.button>
           <h1>Verify Payment</h1>
         </header>
 
@@ -63,9 +73,15 @@ export default function VerifyScreen() {
           </div>
 
           {/* Manual trigger for demo */}
-          <button className="verify-manual-btn" onClick={() => setShowSheet(true)}>
+          <motion.button
+            className="verify-manual-btn"
+            onClick={() => setShowSheet(true)}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+            transition={TAP_BTN}
+          >
             I'm back — check my payment
-          </button>
+          </motion.button>
 
           {/* Screenshot upload */}
           <div className="screenshot-section">
@@ -95,19 +111,31 @@ export default function VerifyScreen() {
               <motion.div
                 className="bottom-sheet"
                 initial={{ y: '100%' }}
-                animate={{ y: 0, transition: { type: 'spring', stiffness: 200, damping: 25 } }}
-                exit={{ y: '100%', transition: { duration: 0.2 } }}
+                animate={{ y: 0, transition: { type: 'spring', stiffness: 260, damping: 28 } }}
+                exit={{ y: '100%', transition: { duration: 0.18, ease: 'easeIn' } }}
               >
                 <div className="sheet-handle" />
                 <h3 className="sheet-title">Welcome back, Amaka 👋</h3>
                 <p className="sheet-body">Did the transfer go through?</p>
                 <div className="sheet-actions">
-                  <button className="sheet-btn sheet-btn--yes" onClick={() => handleConfirm(true)}>
+                  <motion.button
+                    className="sheet-btn sheet-btn--yes"
+                    onClick={() => handleConfirm(true)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={TAP_BTN}
+                  >
                     <CheckCircle size={20} weight="bold" /> Yes, it went through
-                  </button>
-                  <button className="sheet-btn sheet-btn--no" onClick={() => handleConfirm(false)}>
+                  </motion.button>
+                  <motion.button
+                    className="sheet-btn sheet-btn--no"
+                    onClick={() => handleConfirm(false)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={TAP_BTN}
+                  >
                     <XCircle size={20} weight="bold" /> No, not yet
-                  </button>
+                  </motion.button>
                 </div>
               </motion.div>
             </>
@@ -115,5 +143,6 @@ export default function VerifyScreen() {
         </AnimatePresence>
       </div>
     </div>
+    </PageWrapper>
   );
 }
